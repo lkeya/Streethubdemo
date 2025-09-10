@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STREET HUB - Investor Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f7fafc; color: #2d3748; }
+        .container { max-width: 600px; margin: auto; background-color: white; min-height: 100vh; position: relative; }
+        .card { background-color: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem; }
+        .kpi-card { @apply flex flex-col items-start p-4 rounded-lg; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .progress-bar-container { width: 100%; background-color: #e2e8f0; border-radius: 9999px; height: 12px; overflow: hidden; }
+        .progress-bar { background-color: #3b82f6; height: 100%; transition: width 0.5s ease-in-out; }
+        .map-container { height: 80vh; width: 100%; background-color: #e2e8f0; position: relative; overflow: hidden; }
+        .vendor-pin { width: 40px; height: 40px; background-color: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1rem; position: absolute; transform: translate(-50%, -50%); border: 2px solid white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); }
+        .darnal-pin { background-color: #48bb78; }
+        .tab-content { display: none; padding: 1rem; }
+        .tab-content.active { display: block; }
+        .message-box { position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: #2d3748; color: white; padding: 1rem 2rem; border-radius: 8px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); z-index: 50; display: none; }
+    </style>
+</head>
+<body class="p-2 sm:p-4">
+    <div class="container rounded-lg shadow-lg overflow-hidden p-0">
+
+        <!-- Role Selection Screen -->
+        <div id="role-select" class="p-8 text-center h-screen flex flex-col justify-center items-center">
+            <h1 class="text-3xl font-bold mb-2 text-gray-800">STREET HUB</h1>
+            <p class="text-gray-600 font-medium mb-4">Powering The Street Economy</p>
+            <p class="text-sm text-gray-500 mb-8">A VendorStack Ltd. Company. Built to handle street FMCGs, starting with ice cream.</p>
+            <div class="space-y-4 w-full px-4">
+                <button onclick="showDashboard('manufacturer')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">Manufacturer/Distributor</button>
+                <button onclick="showDashboard('vendor')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">Vendor</button>
+                <button onclick="showDashboard('customer')" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 rounded-lg transition-colors">Customer</button>
+            </div>
+        </div>
+
+        <!-- Manufacturer/Distributor Dashboard -->
+        <div id="manufacturer-dashboard" class="tab-content">
+            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
+                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
+                <h1 class="text-xl font-bold">STREET HUB Dashboard</h1>
+                <div class="w-6"></div>
+            </header>
+            <main class="p-4 space-y-4">
+                <!-- Unit Economics -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Key Unit Economics (Per Vendor)</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+                        <div class="kpi-card bg-green-50">
+                            <p>Customer Lifetime Value (LTV)</p>
+                            <span class="font-bold text-lg text-green-700">KES 12,000</span>
+                        </div>
+                        <div class="kpi-card bg-red-50">
+                            <p>Customer Acquisition Cost (CAC)</p>
+                            <span class="font-bold text-lg text-red-700">KES 2,000</span>
+                        </div>
+                        <div class="kpi-card bg-purple-50">
+                            <p>LTV:CAC Ratio</p>
+                            <span class="font-bold text-lg text-purple-700">6:1</span>
+                        </div>
+                        <div class="kpi-card bg-blue-50">
+                            <p>Avg. Vendors Per Manufacturer</p>
+                            <span class="font-bold text-lg text-blue-700">10</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Market Intelligence Section -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Market Intelligence & Prediction</h3>
+                    <div class="map-container relative">
+                        <img src="https://placehold.co/600x400/e2e8f0/4a5568?text=Map+of+Nairobi" alt="Map of Nairobi" class="w-full h-full object-cover rounded-lg">
+                        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg">
+                            <p class="text-sm font-semibold">Today's Hot Zones</p>
+                        </div>
+                        <!-- Mock Heat Zones -->
+                        <div class="absolute bg-red-500 opacity-50 rounded-full w-24 h-24" style="top: 60%; left: 30%;"></div>
+                        <div class="absolute bg-orange-500 opacity-50 rounded-full w-16 h-16" style="top: 25%; left: 65%;"></div>
+                        <div class="absolute bg-green-500 opacity-50 rounded-full w-12 h-12" style="top: 80%; left: 80%;"></div>
+                        <!-- Mock Event Pin -->
+                        <i class="fa-solid fa-star text-yellow-400 absolute text-xl" style="top: 40%; left: 45%;"></i>
+                        <p class="absolute bottom-4 left-4 text-xs bg-white px-2 py-1 rounded-full shadow-md">Upcoming Event: Marathon at CBD</p>
+                    </div>
+                </section>
+            
+                <!-- Manufacturing & Inventory -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Manufacturing Module</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between items-center">
+                            <span>Darnal Powder in Stock</span>
+                            <span class="font-bold text-green-600">500 kg</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Last Production Batch</span>
+                            <span>September 9, 2025</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Average Darnal Use / Vendor</span>
+                            <span>2.5 kg/day</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vendor List -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Your Vendors</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between items-center p-2 rounded-lg bg-gray-50">
+                            <p>Jane's Cool Treats</p>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">KES 2,400</p>
+                                <p class="text-xs text-gray-500">Sales Last 24hrs</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-2 rounded-lg bg-gray-50">
+                            <p>John's Tricycle</p>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">KES 1,900</p>
+                                <p class="text-xs text-gray-500">Sales Last 24hrs</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Vendor Dashboard -->
+        <div id="vendor-dashboard" class="tab-content">
+            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
+                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
+                <h1 class="text-xl font-bold">STREET HUB for Vendors</h1>
+                <div class="w-6"></div>
+            </header>
+            <main class="p-4 space-y-4">
+                <!-- KPI Section -->
+                <section class="grid grid-cols-2 gap-2">
+                    <div class="kpi-card bg-white">
+                        <p class="text-xs text-gray-500">Daily Inventory Loan</p>
+                        <h2 class="text-xl font-bold text-gray-800 mt-1">KES 3,500</h2>
+                    </div>
+                    <div class="kpi-card bg-white">
+                        <p class="text-xs text-gray-500">Today's Sales</p>
+                        <h2 class="text-xl font-bold text-green-600 mt-1">KES 3,000</h2>
+                    </div>
+                    <div class="kpi-card bg-white">
+                        <p class="text-xs text-gray-500">Your Net Profit</p>
+                        <h2 class="text-xl font-bold text-purple-600 mt-1">KES 1,200</h2>
+                    </div>
+                    <div class="kpi-card bg-white">
+                        <p class="text-xs text-gray-500">Member Since</p>
+                        <h2 class="text-xl font-bold text-blue-600 mt-1">8 months</h2>
+                    </div>
+                </section>
+        
+                <!-- Financial Breakdown & Savings -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Today's Financial Breakdown</h3>
+                    <div class="space-y-1 text-sm">
+                        <div class="flex justify-between items-center text-gray-700">
+                            <span>Total Sales from Tricycle</span>
+                            <span class="font-bold">KES 3,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-gray-700">
+                            <span>Fintech Loan Repayment (1.5% fee included)</span>
+                            <span class="font-bold text-red-600">- KES 2,100</span>
+                        </div>
+                        <div class="flex justify-between items-center text-gray-700">
+                            <span>Automated Growth Savings</span>
+                            <span class="font-bold text-red-600">- KES 100</span>
+                        </div>
+                        <hr class="border-gray-200 my-1">
+                        <div class="flex justify-between items-center text-base text-green-600 font-bold">
+                            <span>Your Final Net Profit (to M-Pesa)</span>
+                            <span>KES 800</span>
+                        </div>
+                    </div>
+                </section>
+        
+                <!-- Growth Pathway Section -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Your Path to Becoming a Distributor</h3>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center text-gray-600 text-sm">
+                            <span class="font-medium">Tier 1: Reliable Vendor</span>
+                            <span>15 of 20 days complete</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+                                Badge Earned: <span class="font-bold">Trusted Seller</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+        
+                <!-- Market Intelligence Teaser -->
+                <section class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Market Intelligence</h3>
+                    <div class="p-4 bg-gray-100 rounded-lg text-center">
+                        <i class="fa-solid fa-lock text-3xl text-gray-400 mb-2"></i>
+                        <p class="font-semibold text-gray-600">Unlock your selling edge!</p>
+                        <p class="text-sm text-gray-500 mt-1">Work with a certified manufacturer to access the profit heat map and event calendar.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Customer App -->
+        <div id="customer-app" class="tab-content">
+            <header class="p-4 text-center border-b border-gray-200 flex justify-between items-center">
+                <button onclick="showDashboard('role-select')" class="text-gray-500 hover:text-gray-700 transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
+                <h1 class="text-xl font-bold">STREET HUB Customer</h1>
+                <div class="w-6"></div>
+            </header>
+            
+            <main class="h-[calc(100vh-100px)] flex flex-col">
+                <div class="p-4 text-center">
+                    <h2 class="text-xl font-semibold mb-2">Find Your Treat</h2>
+                    <input type="text" placeholder="Search for flavors or products..." class="w-full p-2 pl-4 rounded-full border border-gray-300 focus:outline-none focus:border-blue-400 shadow-md text-sm">
+                </div>
+
+                <div class="flex-grow map-container relative">
+                    <img src="https://placehold.co/500x800/e2e8f0/4a5568?text=Map+of+Nairobi" alt="Map of Nairobi" class="w-full h-full object-cover">
+                    <!-- Vendor Pins -->
+                    <div class="vendor-pin darnal-pin" style="top: 30%; left: 25%;" data-vendor="John's Tricycle" data-rating="4.8">
+                        <i class="fa-solid fa-ice-cream"></i>
+                    </div>
+                    <div class="vendor-pin" style="top: 55%; left: 70%;" data-vendor="Jane's Popsicles" data-rating="4.2">
+                        <i class="fa-solid fa-ice-cream"></i>
+                    </div>
+                    <div class="vendor-pin darnal-pin" style="top: 70%; left: 45%;" data-vendor="The Creamery Crew" data-rating="4.9">
+                        <i class="fa-solid fa-ice-cream"></i>
+                    </div>
+                </div>
+
+                <div class="p-4 border-t border-gray-200">
+                    <h2 class="text-lg font-semibold mb-2">Home Delivery & Feedback</h2>
+                    <p class="text-sm text-gray-600 mb-2">Future MVP Feature: Place an order for your next event or birthday party!</p>
+                    <button onclick="showMessage('Home delivery coming soon!')" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-sm">
+                        Place Bulk Order
+                    </button>
+                    <p class="text-sm text-gray-600 mt-4 mb-2">Future MVP Feature: Your feedback helps us ensure quality.</p>
+                    <button onclick="showMessage('Feedback module coming soon!')" class="w-full bg-yellow-600 text-white font-bold py-2 rounded-lg text-sm">
+                        Leave Feedback
+                    </button>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <div id="message-box" class="message-box"></div>
+
+    <script>
+        function showDashboard(id) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            const mainScreen = document.getElementById('role-select');
+            if (id === 'role-select') {
+                mainScreen.style.display = 'flex';
+            } else {
+                mainScreen.style.display = 'none';
+                document.getElementById(id).style.display = 'block';
+            }
+        }
+        
+        function showMessage(text) {
+            const msgBox = document.getElementById('message-box');
+            msgBox.textContent = text;
+            msgBox.style.display = 'block';
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, 3000);
+        }
+
+        window.onload = () => showDashboard('role-select');
+    </script>
+</body>
+</html>
+
